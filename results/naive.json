@@ -1,0 +1,43 @@
+{
+  "run": "naive",
+  "jobs": 10000,
+  "succeeded": 9324,
+  "failed": 676,
+  "lost": 0,
+  "success_rate_pct": 93.24,
+  "makespan_s": 586.4,
+  "throughput_jobs_per_min": 954.1,
+  "throughput_jobs_per_hour": 57243,
+  "latency_s_all": {
+    "p50": 289.72,
+    "p95": 397.79,
+    "p99": 404.6
+  },
+  "latency_s_small_tenants": {
+    "p50": 368.09,
+    "p95": 403.25,
+    "p99": 407.21
+  },
+  "latency_s_bulk_tenant": {
+    "p50": 202.68,
+    "p99": 401.97
+  },
+  "upstream_creates": 13051,
+  "upstream_gets": 15015,
+  "upstream_429s": 5049,
+  "upstream_429_rate": 5049,
+  "upstream_429_concurrency": 0,
+  "provider_projects": 9892,
+  "provider_credits_net": 48070,
+  "duplicate_paid_renders": 271,
+  "wasted_credits": 1355,
+  "faults_injected": {
+    "5xx_clean": 205,
+    "5xx_ambiguous": 191,
+    "hang": 105,
+    "get_5xx": 243,
+    "render_error": 278,
+    "webhook_dropped": 0
+  },
+  "chaos": []
+}

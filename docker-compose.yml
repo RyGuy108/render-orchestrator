@@ -1,0 +1,40 @@
+# docker compose up --build        -> orchestrator in front of the mock Magic Hour API
+# set MH_BASE_URL=https://api.magichour.ai and MAGIC_HOUR_API_KEY to point it at the real API
+x-orch-env: &orch-env
+  DATABASE_URL: postgresql://postgres:postgres@postgres:5432/orch
+  REDIS_URL: redis://redis:6379/0
+  MH_BASE_URL: ${MH_BASE_URL:-http://mock:9000}
+  MAGIC_HOUR_API_KEY: ${MAGIC_HOUR_API_KEY:-mock-key}
+  WEBHOOK_SECRET: ${WEBHOOK_SECRET:-dev-secret}
+
+services:
+  postgres:
+    image: postgres:16
+    environment: { POSTGRES_PASSWORD: postgres, POSTGRES_DB: orch }
+    healthcheck: { test: ["CMD", "pg_isready", "-U", "postgres"], interval: 2s, retries: 30 }
+  redis:
+    image: redis:7
+    command: ["redis-server", "--appendonly", "no"]
+  mock:
+    build: .
+    command: uvicorn mockmh.server:app --host 0.0.0.0 --port 9000
+    environment: { MOCK_WEBHOOK_URL: http://api:8000/webhooks/magic-hour }
+    ports: ["9000:9000"]
+  api:
+    build: .
+    command: uvicorn orchestrator.api:app --host 0.0.0.0 --port 8000
+    environment: *orch-env
+    ports: ["8000:8000"]
+    depends_on: { postgres: { condition: service_healthy }, redis: { condition: service_started } }
+  reconciler:
+    build: .
+    command: python -m orchestrator.reconciler
+    environment: *orch-env
+    depends_on: [api]
+    deploy: { replicas: 2 }          # one leader, one hot standby (advisory lock)
+  workers:
+    build: .
+    command: python -m orchestrator.supervisor
+    environment: { <<: *orch-env, WORKERS: "4", WORKER_CONCURRENCY: "16" }
+    depends_on: [api]
+    stop_grace_period: 40s           # SIGTERM -> drain in-flight submits

@@ -1,0 +1,25 @@
+{
+  "run": "real-api",
+  "jobs": 12,
+  "succeeded": 12,
+  "success_rate_pct": 100.0,
+  "idempotent_replays_deduped": 12,
+  "provider_projects_created": 12,
+  "latency_s": {
+    "p50": 19.23,
+    "p99": 34.34,
+    "mean": 20.97
+  },
+  "wall_clock_s": 39.9,
+  "ledger_net_credits": 60,
+  "provider_net_credits": 60,
+  "ledger_matches_provider": true,
+  "metrics": [
+    "orch_completed_by_poll_total 12",
+    "orch_upstream_create_200_total 12",
+    "orch_upstream_get_200_total 32",
+    "orch_job_latency_seconds{quantile=\"0.5\"} 19.230",
+    "orch_job_latency_seconds{quantile=\"0.95\"} 33.912",
+    "orch_job_latency_seconds{quantile=\"0.99\"} 34.345"
+  ]
+}

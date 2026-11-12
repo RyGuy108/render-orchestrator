@@ -1,0 +1,48 @@
+{
+  "run": "naive-chaos",
+  "jobs": 10000,
+  "succeeded": 9314,
+  "failed": 686,
+  "lost": 0,
+  "success_rate_pct": 93.14,
+  "makespan_s": 589.7,
+  "throughput_jobs_per_min": 947.7,
+  "throughput_jobs_per_hour": 56861,
+  "latency_s_all": {
+    "p50": 294.97,
+    "p95": 402.6,
+    "p99": 409.28
+  },
+  "latency_s_small_tenants": {
+    "p50": 374.75,
+    "p95": 407.85,
+    "p99": 411.96
+  },
+  "latency_s_bulk_tenant": {
+    "p50": 207.77,
+    "p99": 406.27
+  },
+  "upstream_creates": 12926,
+  "upstream_gets": 15274,
+  "upstream_429s": 5019,
+  "upstream_429_rate": 5019,
+  "upstream_429_concurrency": 0,
+  "provider_projects": 9936,
+  "provider_credits_net": 48170,
+  "duplicate_paid_renders": 299,
+  "wasted_credits": 1495,
+  "faults_injected": {
+    "5xx_clean": 201,
+    "5xx_ambiguous": 180,
+    "hang": 100,
+    "get_5xx": 242,
+    "render_error": 302,
+    "webhook_dropped": 0
+  },
+  "chaos": [
+    {
+      "t": 91.1,
+      "event": "kill_client"
+    }
+  ]
+}
